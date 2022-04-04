@@ -16,7 +16,7 @@ export const CellBox = function CellBox({ listIndex, data }) {
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: BoxTypes,
-    item: { listIndex: listIndex },
+    item: { listIndex },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {

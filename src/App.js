@@ -51,10 +51,12 @@ function App() {
   }
 
   const updateListData = (dragIndex, dropIndex) => {
-    let tempList = [...list];
-    [tempList[dragIndex], tempList[dropIndex]] = [tempList[dropIndex], tempList[dragIndex]];
+    if (list[dragIndex] && list[dropIndex]) {
+      let tempList = [...list];
+      [tempList[dragIndex], tempList[dropIndex]] = [tempList[dropIndex], tempList[dragIndex]];
 
-    setList(tempList);
+      setList(tempList);
+    }
   }
 
   return (

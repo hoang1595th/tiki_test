@@ -11,7 +11,7 @@ const style = {
 const CustomTableCell = ({ listIndex, children }) => {
 	const [{ canDrop, isOver }, drop] = useDrop(() => ({
 		accept: BoxTypes,
-		drop: () => ({ listIndex: listIndex }),
+		drop: () => ({ listIndex }),
 	}));
 
 	return (
