@@ -60,7 +60,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{ updateListData }}>
+    <AppContext.Provider value={{ list, updateListData }}>
       <Paper elevation={3} sx={appForm}>
         <TextField
           value={input}

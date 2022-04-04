@@ -12,7 +12,7 @@ const style = {
 export const BoxTypes = 'box';
 
 export const CellBox = function CellBox({ listIndex, data }) {
-  const { updateListData } = useContext(AppContext);
+  const { list, updateListData } = useContext(AppContext);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: BoxTypes,
@@ -23,7 +23,7 @@ export const CellBox = function CellBox({ listIndex, data }) {
         updateListData(item.listIndex, dropResult.listIndex)
       }
     }
-  }), [listIndex, data]);
+  }), [list]);
   const opacity = isDragging ? 0.4 : 1;
 
   return (
