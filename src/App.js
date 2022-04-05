@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
@@ -30,6 +30,7 @@ function App() {
   const [input, setInput] = useState('');
   const [number, setNumber] = useState(0);
   const [list, setList] = useState([]);
+  console.log('list', list)
   const numberArr = [...Array(parseInt(number)).keys()];
 
   useEffect(() => {
@@ -40,6 +41,14 @@ function App() {
 
   const generateList = () => {
     return [...Array(parseInt(number * number)).keys()].map(n => n + 1);
+  }
+
+  const onKeyDown = (e) => {
+    const keyCode = e.keyCode;
+    
+    if((keyCode < 48 || keyCode > 57) && keyCode !== 8){
+      e.preventDefault();
+    }
   }
 
   const getListIndex = (x, y) => {
@@ -60,14 +69,14 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{ list, updateListData }}>
+    <AppContext.Provider value={{ list, updateListData, getListIndex }}>
       <Paper elevation={3} sx={appForm}>
         <TextField
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={onKeyDown}
           label="Enter number"
           variant="standard"
-          type="number"
         />
         <Button onClick={() => setNumber(input)} sx={generateButton} variant="contained">Generate</Button>
       </Paper>
@@ -81,10 +90,9 @@ function App() {
                   <TableRow key={rowIndex} >
                     {numberArr.map((col, colIndex) => {
                       const listIndex = getListIndex(col, row);
-                      const data = list[listIndex];
-                      return data && (
+                      return listIndex && (
                         <CustomTableCell key={colIndex} listIndex={listIndex} >
-                          <CellBox listIndex={listIndex} data={data} />
+                          <CellBox listIndex={listIndex} data={list[listIndex] || ""} />
                         </CustomTableCell>
                       )
                     })}
