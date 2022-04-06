@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { useDrop } from 'react-dnd';
-import { grey } from '@mui/material/colors';
 import TableCell from '@mui/material/TableCell';
 
 import CellBox, { BoxTypes } from './CellBox';
@@ -16,14 +15,17 @@ const CustomTableCell = React.memo(({ row, col }) => {
   const { getListIndex } = useContext(AppContext);
 	const listIndex = getListIndex(col, row);
 
-	const [{ canDrop, isOver }, drop] = useDrop(() => ({
+	const [{ isOver }, drop] = useDrop(() => ({
 		accept: BoxTypes,
 		drop: () => ({ listIndex }),
+		collect: (monitor) => ({
+				isOver: monitor.isOver()
+		}),
 	}));
 
 	return (
 		<TableCell align="center" sx={style} ref={drop} >
-			<CellBox listIndex={listIndex} />
+			<CellBox listIndex={listIndex} isOver={isOver} />
 		</TableCell>
 	);
 });

@@ -6,19 +6,19 @@ import { AppContext } from './App';
 
 const style = {
   border: '1px dashed gray',
-  backgroundColor: '#b3e5fc',
   padding: '0.5rem',
   cursor: 'move',
   fontWeight: "bold",
+  minWidth: "25px",
   '&:hover': {
-    backgroundColor: '#29b6f6',
+    backgroundColor: '#039be5',
     color: "#ffffff"
   }
 };
 
 export const BoxTypes = 'box';
 
-const CellBox = React.memo(({ listIndex }) => {
+const CellBox = React.memo(({ listIndex, isOver }) => {
   const { list, updateListData } = useContext(AppContext);
 
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -31,10 +31,14 @@ const CellBox = React.memo(({ listIndex }) => {
       }
     }
   }), [list]);
-  const opacity = isDragging ? 0.4 : 1;
+
+  const dynamicStyle = {
+    opacity: (isDragging ? 0.4 : 1),
+    backgroundColor: isOver ? '#ffa726' : '#b3e5fc',
+  }
 
   return (
-    <Box component="div" ref={drag} role="Box" sx={{ ...style, opacity }}>
+    <Box component="div" ref={drag} role="Box" sx={{ ...style, ...dynamicStyle }}>
       {list[listIndex] || ""}
     </Box>
   );

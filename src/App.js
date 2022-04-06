@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-import CellBox from './CellBox';
 import CustomTableCell from './CustomTableCell';
 
 import {
@@ -20,7 +19,6 @@ import {
   sideBar,
   title,
   description,
-  textField,
   generateButton,
   mainContent,
   tableContainer,
@@ -34,7 +32,6 @@ function App() {
   const [input, setInput] = useState('');
   const [number, setNumber] = useState(0);
   const [list, setList] = useState([]);
-  console.log('list', list)
   const numberArr = [...Array(parseInt(number)).keys()];
 
   useEffect(() => {
@@ -83,28 +80,29 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
             label="number"
-            variant="standard"
-            sx={textField}
+            variant="outlined"
           />
           <Button onClick={() => setNumber(input)} disabled={!(parseInt(input) > 0)} sx={generateButton} variant="contained">Generate</Button>
         </Box>
         <Box component="main" sx={mainContent}>
-          {/* table */}
-          {number > 0 && list.length > 0 && (
-            <TableContainer sx={tableContainer}>
-              <Table aria-label="simple table" sx={table} >
-                <TableBody sx={tableBody}>
-                  {numberArr.map((row, rowIndex) => (
-                    <TableRow key={rowIndex} >
-                      {numberArr.map((col, colIndex) => (
-                        <CustomTableCell key={colIndex} row={row} col={col} />
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
+          <DndProvider backend={HTML5Backend}>
+            {/* table */}
+            {number > 0 && list.length > 0 && (
+              <TableContainer sx={tableContainer}>
+                <Table aria-label="simple table" sx={table} >
+                  <TableBody sx={tableBody}>
+                    {numberArr.map((row, rowIndex) => (
+                      <TableRow key={rowIndex} >
+                        {numberArr.map((col, colIndex) => (
+                          <CustomTableCell key={colIndex} row={row} col={col} />
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </DndProvider>
         </Box>
       </Box>
     </AppContext.Provider >

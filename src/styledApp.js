@@ -1,4 +1,6 @@
-import { blue, lightBlue, grey, blueGrey } from '@mui/material/colors';
+import { blue, lightBlue, grey } from '@mui/material/colors';
+
+const SIDE_BAR_WIDTH = 250;
 
 export const appContainer = {
   display: "flex",
@@ -11,7 +13,7 @@ export const appContainer = {
 export const sideBar = {
   display: "flex",
   flexDirection: "column",
-  width: "150px",
+  width: `${SIDE_BAR_WIDTH}px`,
   padding: "0 16px",
   backgroundColor: lightBlue[200],
   height: "100%",
@@ -30,12 +32,8 @@ export const title = {
 };
 
 export const description = {
-  color: "#ffffff",
+  color: grey[700],
   marginBottom: "30px"
-};
-
-export const textField = {
-  color: "#ffffff"
 };
 
 export const generateButton = {
@@ -48,14 +46,19 @@ export const mainContent = {
   alignItems: "center",
   backgroundColor: "#e1f5fe",
   height: "100%",
-  padding: "20px",
-  width: "calc(100% - 150px)",
+  padding: "40px",
+  width: `calc(100% - ${SIDE_BAR_WIDTH}px)`,
   boxSizing: "border-box",
   overflow: "auto"
 };
 
 export const tableContainer = {
-  maxHeight: "100%"
+  maxHeight: "100%",
+  width: "auto",
+  border: "2px solid "+ grey[600],
+  padding: "10px",
+  backgroundColor: "#ffffff",
+  boxSizing: "border-box"
 };
 
 export const table = {
