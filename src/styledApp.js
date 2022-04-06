@@ -1,30 +1,71 @@
-const FORM_HEIGH = 100;
+import { blue, lightBlue, grey, blueGrey } from '@mui/material/colors';
 
-export const appForm = {
+export const appContainer = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  height: `${FORM_HEIGH}px`
+  width: "100vw",
+  height: "100vh",
+};
+
+export const sideBar = {
+  display: "flex",
+  flexDirection: "column",
+  width: "150px",
+  padding: "0 16px",
+  backgroundColor: lightBlue[200],
+  height: "100%",
+  boxShadow: "0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)",
+  zIndex: "1"
+};
+
+export const title = {
+  fontSize: "27px",
+  fontWeight: "bold",
+  borderBottom: "1px solid #000000",
+  textAlign: "center",
+  color: blue[900],
+  padding: "10px 0",
+  marginBottom: "10px"
+};
+
+export const description = {
+  color: "#ffffff",
+  marginBottom: "30px"
+};
+
+export const textField = {
+  color: "#ffffff"
 };
 
 export const generateButton = {
-  marginLeft: "8px"
-};
-
-export const table = {
-  display: "flex",
-  borderCollapse: "collapse",
-  width: "auto"
+  marginTop: "8px"
 };
 
 export const mainContent = {
   display: "flex",
-  justifyContent: "center",  
-  height: `calc(100vh - ${FORM_HEIGH}px)`
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#e1f5fe",
+  height: "100%",
+  padding: "20px",
+  width: "calc(100% - 150px)",
+  boxSizing: "border-box",
+  overflow: "auto"
 };
 
 export const tableContainer = {
-  display: "flex",
-  justifyContent: "center",
-  margin: "40px"
+  maxHeight: "100%"
+};
+
+export const table = {
+  width: "auto",
+  margin: "0 auto",
+  borderCollapse: "collapse"
+};
+
+export const tableBody = {
+  backgroundColor: "#607d8b",
+  overflow: "auto",
+  boxShadow: "0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)",
 };

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-import { CellBox } from './CellBox';
+import CellBox from './CellBox';
 import CustomTableCell from './CustomTableCell';
 
 import {
@@ -12,16 +12,20 @@ import {
   TableContainer,
   Table,
   TableBody,
-  TableRow,
-  Paper
+  TableRow
 } from '@mui/material';
 
 import {
-  appForm,
+  appContainer,
+  sideBar,
+  title,
+  description,
+  textField,
   generateButton,
   mainContent,
   tableContainer,
   table,
+  tableBody,
 } from './styledApp';
 
 export const AppContext = React.createContext();
@@ -40,24 +44,24 @@ function App() {
   }, [number]);
 
   const generateList = () => {
-    return [...Array(parseInt(number * number)).keys()].map(n => n + 1);
+    return [...Array(Math.pow(number, 2)).keys()].map(n => n + 1);
   }
 
   const onKeyDown = (e) => {
     const keyCode = e.keyCode;
-    
-    if((keyCode < 48 || keyCode > 57) && keyCode !== 8){
+
+    if ((keyCode < 48 || keyCode > 57) && keyCode !== 8) {
       e.preventDefault();
     }
   }
 
-  const getListIndex = (x, y) => {
+  const getListIndex = useCallback((x, y) => {
     if (x % 2 === 0) {
       return x * number + y
     } else {
       return (x + 1) * number - (y + 1)
     }
-  }
+  }, [number])
 
   const updateListData = (dragIndex, dropIndex) => {
     if (list[dragIndex] && list[dropIndex]) {
@@ -70,40 +74,40 @@ function App() {
 
   return (
     <AppContext.Provider value={{ list, updateListData, getListIndex }}>
-      <Paper elevation={3} sx={appForm}>
-        <TextField
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={onKeyDown}
-          label="Enter number"
-          variant="standard"
-        />
-        <Button onClick={() => setNumber(input)} sx={generateButton} variant="contained">Generate</Button>
-      </Paper>
-      <Box component="div" sx={mainContent}>
-        {/* table */}
-        {number > 0 && <TableContainer sx={tableContainer}>
-          <Table aria-label="simple table" sx={table} >
-            <TableBody>
-              <DndProvider backend={HTML5Backend}>
-                {numberArr.map((row, rowIndex) => (
-                  <TableRow key={rowIndex} >
-                    {numberArr.map((col, colIndex) => {
-                      const listIndex = getListIndex(col, row);
-                      return listIndex && (
-                        <CustomTableCell key={colIndex} listIndex={listIndex} >
-                          <CellBox listIndex={listIndex} data={list[listIndex] || ""} />
-                        </CustomTableCell>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </DndProvider>
-            </TableBody>
-          </Table>
-        </TableContainer>}
+      <Box component="div" sx={appContainer}>
+        <Box component="aside" sx={sideBar}>
+          <Box component="div" sx={title}>Zigzag Application</Box>
+          <Box component="div" sx={description}>Enter a number to generate a zigzag table.</Box>
+          <TextField
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={onKeyDown}
+            label="number"
+            variant="standard"
+            sx={textField}
+          />
+          <Button onClick={() => setNumber(input)} disabled={!(parseInt(input) > 0)} sx={generateButton} variant="contained">Generate</Button>
+        </Box>
+        <Box component="main" sx={mainContent}>
+          {/* table */}
+          {number > 0 && list.length > 0 && (
+            <TableContainer sx={tableContainer}>
+              <Table aria-label="simple table" sx={table} >
+                <TableBody sx={tableBody}>
+                  {numberArr.map((row, rowIndex) => (
+                    <TableRow key={rowIndex} >
+                      {numberArr.map((col, colIndex) => (
+                        <CustomTableCell key={colIndex} row={row} col={col} />
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Box>
       </Box>
-    </AppContext.Provider>
+    </AppContext.Provider >
   );
 }
 
